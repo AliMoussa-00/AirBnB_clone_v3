@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defining the places amenities module to request the amenities objs"""
 
-from flask import jsonify, request
+from flask import abort, jsonify
 
 from api.v1.views import app_views
 from models import storage, storage_t
@@ -17,7 +17,7 @@ def get_place_amenities(place_id):
         abort(404)
     amenities = []
 
-    if models.storage_t == 'db':
+    if storage_t == 'db':
         for ame in place.amenities:
             amenities.append(ame.to_dict())
     else:
@@ -40,7 +40,7 @@ def delete_place_amenity(place_id, amenity_id):
         abort(404)
 
     place_amenity = None
-    if models.storage_t == 'db':
+    if storage_t == 'db':
         for obj in place.amenities:
             if obj.id == ame.id:
                 place_amenity = obj
@@ -67,7 +67,7 @@ def link_amenity_place(place_id, amenity_id):
     if not ame:
         abort(404)
 
-    if models.storage_t == "db":
+    if storage_t == "db":
         # check if the amenity already linked to place
         for obj in place.amenities:
             if obj.id == amenity_id:

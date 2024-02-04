@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """Defining the places module to request the places objs"""
 
-from flask import jsonify, request
+from flask import abort, jsonify, request
 
 from api.v1.views import app_views
 from models import storage, storage_t
-from models.amenity import Amenity
 from models.city import City
 from models.place import Place
 from models.state import State
@@ -88,7 +87,7 @@ def update_place(place_id):
     for k, v in request.get_json().items():
         if k in ignor:
             continue
-        setattr(user, k, v)
+        setattr(place, k, v)
 
     place.save()
     return jsonify(place.to_dict())
@@ -125,7 +124,7 @@ def search_place():
     if list_amenities_ids:
         for place in list_places:
             place_ame = []
-            if models.storage_t == "db":
+            if storage_t == "db":
                 place_ame = [ame.id for ame in place.amenities]
             else:
                 place_ame = place.amenity_ids

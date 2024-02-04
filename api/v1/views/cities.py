@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 """Defining the cities module to request the cities objs"""
 
-from flask import jsonify, request
+from flask import abort, jsonify, request
 
 from api.v1.views import app_views
-from models import storage, storage_t
+from models import storage
 from models.city import City
-from models.place import Place
-from models.review import Review
 from models.state import State
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defining the states module to request the states objs"""
 
-from flask import jsonify, request
+from flask import abort, jsonify, request
 
 from api.v1.views import app_views
 from models import storage

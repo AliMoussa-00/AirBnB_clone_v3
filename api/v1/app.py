@@ -14,13 +14,13 @@ cors = CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
-def teardown_appcontext():
+def teardown_appcontext(exception=None):
     """close the storage session"""
     storage.close()
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(error):
     """creating a custom response for code 404"""
     return make_response(jsonify({'error': 'Not found'}), 404)
 

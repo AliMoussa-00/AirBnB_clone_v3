@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defining the state module to retrieve the state objs"""
+"""Defining the users module to request the users objs"""
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request

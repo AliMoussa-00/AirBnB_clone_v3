@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Defining the users module to request the users objs"""
 
+from flask import jsonify, request
+
 from api.v1.views import app_views
-from flask import jsonify, abort, request
 from models import storage
-from models.state import State
 from models.user import User
 
 

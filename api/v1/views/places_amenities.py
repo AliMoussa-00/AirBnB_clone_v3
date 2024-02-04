@@ -1,15 +1,12 @@
 #!/usr/bin/python3
 """Defining the places amenities module to request the amenities objs"""
 
-from flask import abort, jsonify, request
-import models
+from flask import jsonify, request
 
-from models import storage
-from models.amenity import Amenity
-from models.city import City
-from models.place import Place
-from models.user import User
 from api.v1.views import app_views
+from models import storage, storage_t
+from models.amenity import Amenity
+from models.place import Place
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])

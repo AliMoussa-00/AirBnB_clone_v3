@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """Defining the amenities module"""
 
-from flask import abort, jsonify, request
-from models import storage
+from flask import jsonify, request
 
-from models.amenity import Amenity
 from api.v1.views import app_views
+from models import storage
+from models.amenity import Amenity
 
 
 @app_views.route('/amenities', methods=['GET'])

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defining the places reviews module to request the reviews objs"""
 
-from flask import abort, jsonify, request
+from flask import abort, jsonify, make_response, request
 
 from api.v1.views import app_views
 from models import storage
@@ -27,9 +27,9 @@ def get_all_review(place_id):
 def get_review_by_id(review_id):
     """get review by id """
     review = storage.all(Review).get(f"Review.{review_id}")
-    if review:
-        return jsonify(review.to_dict())
-    abort(404)
+    if review is None:
+        abort(404)
+    return jsonify(review.to_dict())
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
@@ -51,29 +51,29 @@ def create_review(place_id):
         abort(404)
 
     json_data = request.get_json()
-    if type(json_data) is not dict:
-        return jsonify({'error': 'Not a JSON'}), 400
+    if not request.get_json():
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'user_id' not in json_data:
-        return jsonify({'error': 'Missing user_id'}), 400
+        return make_response(jsonify({'error': 'Missing user_id'}), 400)
 
     user_id = json_data.get('user_id')
     user = storage.all(User).get(f"User.{user_id}")
     if user is None:
         abort(404)
     if 'text' not in json_data:
-        return jsonify({'error': 'Missing text'}), 400
+        return make_response(jsonify({'error': 'Missing text'}), 400)
 
     new_review = Review(place_id=place_id, **json_data)
     new_review.save()
-    return (new_review.to_dict()), 200
+    return make_response(jsonify(new_review.to_dict()), 201)
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def update_review(review_id):
     """update review object"""
     json_data = request.get_json()
-    if type(json_data) is not dict:
-        return jsonify({'error': 'Not a JSON'}), 400
+    if not request.get_json():
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
     review = storage.all(Review).get(f"Review.{review_id}")
     if review is None:

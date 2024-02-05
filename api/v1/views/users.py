@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """users.py"""
 
-from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
 from models.user import User
+from api.v1.views import app_views
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
@@ -35,7 +35,7 @@ def delete_user(user_id):
         abort(404)
     user.delete()
     storage.save()
-    return (jsonify({}))
+    return jsonify({})
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)

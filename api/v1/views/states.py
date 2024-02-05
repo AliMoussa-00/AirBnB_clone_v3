@@ -26,7 +26,7 @@ def get_states():
         strict_slashes=False)
 def get_state_by_id(state_id):
     """get a state object by id"""
-    state = storage.all(State).get(f"State.{state_id}")
+    state = storage.all(State).get("State.{}".format(state_id))
     if not state:
         abort(404)
 
@@ -38,7 +38,7 @@ def get_state_by_id(state_id):
         strict_slashes=False)
 def delete_state(state_id):
     """delete a state object by id"""
-    state = storage.all(State).get(f"State.{state_id}")
+    state = storage.all(State).get(f"State.{}".format(state_id))
     if not state:
         abort(404)
 
@@ -70,7 +70,7 @@ def update_state(state_id):
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
-    state = storage.all(State).get(f"State.{state_id}")
+    state = storage.all(State).get(f"State.{}".format(state_id))
     if not state:
         abort(404)
 

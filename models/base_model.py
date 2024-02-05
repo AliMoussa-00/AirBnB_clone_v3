@@ -5,8 +5,6 @@ Contains class BaseModel
 
 from datetime import datetime
 import uuid
-from os import getenv
-import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import models
@@ -28,6 +26,8 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
+        if args:
+            pass
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":

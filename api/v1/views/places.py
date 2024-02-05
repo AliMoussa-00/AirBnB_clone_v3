@@ -50,7 +50,7 @@ def delete_place(place_id):
 
     place.delete()
     storage.save()
-    return (jsonify({}))
+    return jsonify({})
 
 
 @app_views.route(

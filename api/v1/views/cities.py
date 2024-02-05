@@ -14,7 +14,7 @@ from models.state import State
 def get_cities(state_id):
     """get cities"""
     objs = []
-    state = storage.all(State).get(f"State.{state_id}")
+    state = storage.all(State).get("State.{}".format(state_id))
 
     if not state:
         abort(404)
@@ -30,10 +30,10 @@ def get_cities(state_id):
         strict_slashes=False)
 def get_city_by_id(city_id):
     """get City by id"""
-    city = storage.all(City).get(f"City.{city_id}")
-    if city:
-        return jsonify(city.to_dict())
-    abort(404)
+    city = storage.all(City).get("City.{}".format(city_id))
+    if city is None:
+        abort(404)
+    return jsonify(city.to_dict())
 
 
 @app_views.route(
@@ -41,12 +41,12 @@ def get_city_by_id(city_id):
         strict_slashes=False)
 def delete_city_by_id(city_id):
     """delete City by id"""
-    city = storage.all(City).get(f"City.{city_id}")
-    if city:
-        storage.delete(city)
-        storage.save()
-        return make_response(jsonify({}), 200)
-    abort(404)
+    city = storage.all(City).get("City.{}".format(city_id))
+    if city is None:
+        abort(404)
+    storage.delete(city)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -55,7 +55,7 @@ def delete_city_by_id(city_id):
 def create_city(state_id):
     """create City"""
 
-    state = storage.all(State).get(f"State.{state_id}")
+    state = storage.all(State).get("State.{}".format(state_id))
     if not state:
         abort(404)
 
@@ -76,7 +76,7 @@ def create_city(state_id):
         strict_slashes=False)
 def update_city(city_id):
     """update City object"""
-    city = storage.all(City).get(f"City.{city_id}")
+    city = storage.all(City).get("City.{}".format(city_id))
     if city is None:
         abort(404)
 

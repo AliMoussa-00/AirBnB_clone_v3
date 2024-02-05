@@ -28,9 +28,9 @@ def get_all_users():
 def get_user_by_id(user_id):
     """get user by id """
     user = storage.all(User).get(f"User.{user_id}")
-    if user:
-        return jsonify(user.to_dict())
-    abort(404)
+    if user is None:
+        abort(404)
+    return jsonify(user.to_dict())
 
 
 @app_views.route(
@@ -52,7 +52,7 @@ def delete_user_by_id(user_id):
 def create_user():
     """ create user """
     json_data = request.get_json()
-    if type(json_data) is not dict:
+    if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'email' not in json_data:
         return make_response(jsonify({'error': 'Missing email'}), 400)
@@ -72,7 +72,7 @@ def create_user():
 def update_user(user_id):
     """update user object"""
     json_data = request.get_json()
-    if type(json_data) is not dict:
+    if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
     user = storage.all(User).get(f"User.{user_id}")

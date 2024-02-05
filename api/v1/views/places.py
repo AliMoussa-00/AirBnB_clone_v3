@@ -2,7 +2,6 @@
 """Defining the places module to request the places objs"""
 
 from flask import abort, jsonify, make_response, request
-
 from api.v1.views import app_views
 from models import storage, storage_t
 from models.city import City
@@ -16,7 +15,7 @@ from models.user import User
         strict_slashes=False)
 def get_places(city_id):
     """get all places objects"""
-    city = storage.all(City).get(f"City.{city_id}")
+    city = storage.all(City).get("City.{}".format(city_id))
     if not city:
         abort(404)
 
@@ -32,7 +31,7 @@ def get_places(city_id):
         strict_slashes=False)
 def get_place(place_id):
     """get a place object by id"""
-    place = storage.all(Place).get(f"Place.{place_id}")
+    place = storage.all(Place).get("Place.{}".format(place_id))
     if not place:
         abort(404)
 
@@ -44,7 +43,7 @@ def get_place(place_id):
         strict_slashes=False)
 def delete_place(place_id):
     """delete a place object by id"""
-    place = storage.all(Place).get(f"Place.{place_id}")
+    place = storage.all(Place).get("Place.{}".format(place_id))
     if not place:
         abort(404)
 
@@ -58,7 +57,7 @@ def delete_place(place_id):
         strict_slashes=False)
 def create_place(city_id):
     """create a new place object"""
-    city = storage.all(City).get(f"City.{city_id}")
+    city = storage.all(City).get("City.{}".format(city_id))
     if not city:
         abort(404)
 
@@ -68,7 +67,7 @@ def create_place(city_id):
         return make_response(jsonify({'error': 'Missing user_id'}), 400)
 
     user_id = request.get_json()['user_id']
-    user = storage.all(User).get(f"User.{user_id}")
+    user = storage.all(User).get("User.{}".format(user_id))
     if not user:
         abort(404)
 
@@ -89,7 +88,7 @@ def update_place(place_id):
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
-    place = storage.all(Place).get(f"Place.{place_id}")
+    place = storage.all(Place).get("Place.{}".format(place_id))
     if not place:
         abort(404)
 
@@ -121,14 +120,14 @@ def search_place():
 
     if list_states_ids:
         for s_id in list_states_ids:
-            state = storage.all(State).get(f"State.{s_id}")
+            state = storage.all(State).get("State.{}".format(s_id))
             if state:
                 for c in state.cities:
                     list_places.extend(c.places)
 
     if list_cities_ids:
         for c_id in list_cities_ids:
-            city = storage.all(City).get(f"City.{c_id}")
+            city = storage.all(City).get("City.{}".format(c_id))
             if city:
                 list_places.extend(city.places)
     # remove any duplicates

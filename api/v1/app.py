@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """defining the app module for the REST API"""
 
-from models import storage
-from api.v1.views import app_views
-from flask import Flask, make_response, jsonify
 from os import getenv
 from flask_cors import CORS
+from flask import Flask, make_response, jsonify
+from models import storage
+from api.v1.views import app_views
 
 
 app = Flask(__name__)

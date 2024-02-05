@@ -69,6 +69,9 @@ class BaseModel:
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
 
+        if "password" in new_dict and models.storage_t != "fs":
+            del new_dict["password"]
+
         return new_dict
 
     def delete(self):

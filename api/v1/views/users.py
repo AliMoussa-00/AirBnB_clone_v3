@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""users.py"""
+"""users module"""
 
 from flask import abort, jsonify, make_response, request
 from models import storage
@@ -9,28 +9,31 @@ from api.v1.views import app_views
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
-    """get user information for all users"""
+    """get all user"""
     users = []
-    for user in storage.all("User").values():
+    for user in storage.all(User).values():
         users.append(user.to_dict())
     return jsonify(users)
 
 
-@app_views.route('/users/<string:user_id>', methods=['GET'],
-                 strict_slashes=False)
+@app_views.route(
+        '/users/<user_id>', methods=['GET'],
+        strict_slashes=False)
 def get_user(user_id):
-    """get user information for specified user"""
-    user = storage.get("User", user_id)
+    """get a user"""
+    user = storage.all(User).get("User.{}".format(user_id))
+
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
 
 
-@app_views.route('/users/<string:user_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route(
+        '/users/<string:user_id>', methods=['DELETE'],
+        strict_slashes=False)
 def delete_user(user_id):
-    """deletes a user based on its user_id"""
-    user = storage.get("User", user_id)
+    """deletes a user"""
+    user = storage.all(User).get("User.{}".format(user_id))
     if user is None:
         abort(404)
     user.delete()
@@ -52,11 +55,12 @@ def post_user():
     return make_response(jsonify(user.to_dict()), 201)
 
 
-@app_views.route('/users/<string:user_id>', methods=['PUT'],
-                 strict_slashes=False)
+@app_views.route(
+        '/users/<string:user_id>', methods=['PUT'],
+        strict_slashes=False)
 def put_user(user_id):
     """update a user"""
-    user = storage.get("User", user_id)
+    user = storage.all(User).get("User.{}".format(user_id))
     if user is None:
         abort(404)
     if not request.get_json():

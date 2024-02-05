@@ -2,7 +2,6 @@
 """Defining the states module to request the states objs"""
 
 from flask import abort, jsonify, make_response, request
-
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -47,9 +46,7 @@ def delete_state(state_id):
     return jsonify({})
 
 
-@app_views.route(
-        '/states', methods=['POST'],
-        strict_slashes=False)
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """create a new state object"""
     if not request.get_json():
@@ -62,9 +59,7 @@ def create_state():
     return make_response(jsonify(state.to_dict()), 201)
 
 
-@app_views.route(
-        '/states/<state_id>', methods=['PUT'],
-        strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """update state object"""
     if not request.get_json():

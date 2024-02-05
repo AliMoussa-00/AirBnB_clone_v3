@@ -1,14 +1,16 @@
 #!/usr/bin/python3
 """Defining the users module to request the users objs"""
 
-from flask import abort, jsonify, request
+from flask import abort, jsonify, make_response, request
 
 from api.v1.views import app_views
 from models import storage
 from models.user import User
 
 
-@app_views.route('/users', methods=['GET'])
+@app_views.route(
+        '/users', methods=['GET'],
+        strict_slashes=False)
 def get_all_users():
     """all Users objects """
     objs = []
@@ -20,7 +22,9 @@ def get_all_users():
     return jsonify(objs)
 
 
-@app_views.route('/users/<user_id>', methods=['GET'])
+@app_views.route(
+        '/users/<user_id>', methods=['GET'],
+        strict_slashes=False)
 def get_user_by_id(user_id):
     """get user by id """
     user = storage.all(User).get(f"User.{user_id}")
@@ -29,7 +33,9 @@ def get_user_by_id(user_id):
     abort(404)
 
 
-@app_views.route('/users/<user_id>', methods=['DELETE'])
+@app_views.route(
+        '/users/<user_id>', methods=['DELETE'],
+        strict_slashes=False)
 def delete_user_by_id(user_id):
     """delete user by id """
     user = storage.all(User).get(f"User.{user_id}")
@@ -40,30 +46,34 @@ def delete_user_by_id(user_id):
     return jsonify({}), 200
 
 
-@app_views.route('/users', methods=['POST'])
+@app_views.route(
+        '/users', methods=['POST'],
+        strict_slashes=False)
 def create_user():
     """ create user """
     json_data = request.get_json()
     if type(json_data) is not dict:
-        return jsonify({'error': 'Not a JSON'}), 400
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'email' not in json_data:
-        return jsonify({'error': 'Missing email'}), 400
+        return make_response(jsonify({'error': 'Missing email'}), 400)
     if 'password' not in json_data:
-        return jsonify({'error': 'Missing password'}), 400
+        return make_response(jsonify({'error': 'Missing password'}), 400)
 
     email = json_data.get('email')
     password = json_data.get('password')
     new_user = User(email=email, password=password)
     new_user.save()
-    return (new_user.to_dict()), 200
+    return make_response(jsonify(new_user.to_dict()), 201)
 
 
-@app_views.route('/users/<user_id>', methods=['PUT'])
+@app_views.route(
+        '/users/<user_id>', methods=['PUT'],
+        strict_slashes=False)
 def update_user(user_id):
     """update user object"""
     json_data = request.get_json()
     if type(json_data) is not dict:
-        return jsonify({'error': 'Not a JSON'}), 400
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
     user = storage.all(User).get(f"User.{user_id}")
     if not user:
@@ -75,4 +85,4 @@ def update_user(user_id):
             setattr(user, k, v)
 
     user.save()
-    return jsonify(user.to_dict()), 200
+    return jsonify(user.to_dict())

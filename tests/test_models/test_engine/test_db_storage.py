@@ -71,9 +71,10 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
+class TestDBStorage(unittest.TestCase):
+    """Test the DBStorage class"""
 
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def setUp(self):
         """set up our database for testing"""
         # Create an in-memory SQLite database for testing
@@ -84,6 +85,7 @@ class TestFileStorage(unittest.TestCase):
         self.test_db_storage = DBStorage()
         self.test_db_storage._DBStorage__session = self.session
 
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def tearDown(self):
         """Tear down the test envirenment"""
         self.session.close_all()

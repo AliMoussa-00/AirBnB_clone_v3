@@ -2,7 +2,6 @@
 """Defining the cities module to request the cities objs"""
 
 from flask import abort, jsonify, make_response, request
-
 from api.v1.views import app_views
 from models import storage
 from models.city import City
@@ -13,7 +12,7 @@ from models.state import State
         '/states/<state_id>/cities', methods=['GET'],
         strict_slashes=False)
 def get_cities(state_id):
-    """get cities  """
+    """get cities"""
     objs = []
     state = storage.all(State).get(f"State.{state_id}")
 
@@ -30,7 +29,7 @@ def get_cities(state_id):
         '/cities/<city_id>', methods=['GET'],
         strict_slashes=False)
 def get_city_by_id(city_id):
-    """get City by id """
+    """get City by id"""
     city = storage.all(City).get(f"City.{city_id}")
     if city:
         return jsonify(city.to_dict())
@@ -41,7 +40,7 @@ def get_city_by_id(city_id):
         '/cities/<city_id>', methods=['DELETE'],
         strict_slashes=False)
 def delete_city_by_id(city_id):
-    """delete City by id """
+    """delete City by id"""
     city = storage.all(City).get(f"City.{city_id}")
     if city:
         storage.delete(city)
@@ -54,7 +53,7 @@ def delete_city_by_id(city_id):
         '/states/<state_id>/cities', methods=['POST'],
         strict_slashes=False)
 def create_city(state_id):
-    """create City """
+    """create City"""
 
     state = storage.all(State).get(f"State.{state_id}")
     if not state:
@@ -76,7 +75,7 @@ def create_city(state_id):
         '/cities/<city_id>', methods=['PUT'],
         strict_slashes=False)
 def update_city(city_id):
-    """ update City object"""
+    """update City object"""
     city = storage.all(City).get(f"City.{city_id}")
     if city is None:
         abort(404)

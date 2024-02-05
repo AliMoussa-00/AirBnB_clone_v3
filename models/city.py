@@ -1,5 +1,5 @@
 #!/usr/bin/python
-""" holds class City"""
+"""holds class City"""
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
@@ -7,7 +7,7 @@ import models
 
 
 class City(BaseModel, Base):
-    """Representation of city """
+    """Representation of city"""
     if models.storage_t == "db":
         __tablename__ = 'cities'
         state_id = Column(String(60), ForeignKey('states.id'), nullable=False)

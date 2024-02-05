@@ -106,7 +106,7 @@ def update_place(place_id):
         '/places_search', methods=['POST'],
         strict_slashes=False)
 def search_places():
-    """ search places """
+    """search places"""
     json_data = request.get_json()
     if not json_data:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
@@ -128,7 +128,7 @@ def search_places():
 
     if cities_ids:
         for city_id in cities_ids:
-            city = storage.all(City).get(f"City.{}".format(city_id))
+            city = storage.all(City).get("City.{}".format(city_id))
             if city:
                 list_places.extend(city.places)
 

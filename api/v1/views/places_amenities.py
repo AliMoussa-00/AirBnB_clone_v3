@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defining the places amenities module to request the amenities objs"""
 
-from flask import abort, jsonify
+from flask import abort, jsonify, make_response
 
 from api.v1.views import app_views
 from models import storage, storage_t
@@ -82,4 +82,4 @@ def link_amenity_place(place_id, amenity_id):
         place.amenity_ids.append(amenity_id)
 
     place.save()
-    return jsonify(ame.to_dict()), 201
+    return make_response(jsonify(ame.to_dict()), 201)

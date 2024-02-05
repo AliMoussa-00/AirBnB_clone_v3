@@ -9,10 +9,12 @@ from models.amenity import Amenity
 from models.place import Place
 
 
-@app_views.route('/places/<place_id>/amenities', methods=['GET'])
+@app_views.route(
+        '/places/<place_id>/amenities', methods=['GET'],
+        strict_slashes=False)
 def get_place_amenities(place_id):
     """get a place's amenities object by id"""
-    place = storage.all(Place).get(f"Place.{place_id}")
+    place = storage.all(Place).get("Place.{}".format(place_id))
     if not place:
         abort(404)
     amenities = []
@@ -28,14 +30,16 @@ def get_place_amenities(place_id):
     return jsonify(amenities)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>',
-                 methods=['DELETE'])
+@app_views.route(
+        '/places/<place_id>/amenities/<amenity_id>',
+        methods=['DELETE'],
+        strict_slashes=False)
 def delete_place_amenity(place_id, amenity_id):
     """delete an amenity from place object by id"""
-    place = storage.all(Place).get(f"Place.{place_id}")
+    place = storage.all(Place).get("Place.{}".format(place_id))
     if not place:
         abort(404)
-    ame = storage.all(Amenity).get(f"Amenity.{amenity_id}")
+    ame = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
     if not ame:
         abort(404)
 
@@ -57,13 +61,16 @@ def delete_place_amenity(place_id, amenity_id):
     return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
+@app_views.route(
+        '/places/<place_id>/amenities/<amenity_id>',
+        methods=['POST'],
+        strict_slashes=False)
 def link_amenity_place(place_id, amenity_id):
     """link an amenity object with place"""
-    place = storage.all(Place).get(f"Place.{place_id}")
+    place = storage.all(Place).get("Place.{}".format(place_id))
     if not place:
         abort(404)
-    ame = storage.all(Amenity).get(f"Amenity.{amenity_id}")
+    ame = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
     if not ame:
         abort(404)
 

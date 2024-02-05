@@ -102,6 +102,9 @@ def update_place(place_id):
     return jsonify(place.to_dict())
 
 
+@app_views.route(
+        '/places_search', methods=['POST'],
+        strict_slashes=False)
 def search_place():
     """serach and filter places"""
     if not request.get_json():

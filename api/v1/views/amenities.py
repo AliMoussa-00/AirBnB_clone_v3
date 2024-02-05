@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defining the amenities module"""
 
-from flask import abort, jsonify, request
+from flask import abort, jsonify, make_response, request
 
 from api.v1.views import app_views
 from models import storage
@@ -45,20 +45,20 @@ def delete_amenity(amenity_id):
 def create_amenity():
     """create a new amenity object"""
     if not request.get_json():
-        return jsonify({'error': 'Not a JSON'}, 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'name' not in request.get_json():
-        return jsonify({'error': 'Missing name'}, 400)
+        return make_response(jsonify({'error': 'Missing name'}), 400)
 
     ame = Amenity(name=request.get_json()['name'])
     ame.save()
-    return jsonify(ame.to_dict()), 201
+    return make_response(jsonify(ame.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenity(amenity_id):
     """update amenity object"""
     if not request.get_json():
-        return jsonify({'error': 'Not a JSON'}), 400
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
     ame = storage.all(Amenity).get(f"Amenity.{amenity_id}")
     if not ame:

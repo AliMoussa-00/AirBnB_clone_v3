@@ -2,7 +2,6 @@
 """Defining the amenities module"""
 
 from flask import abort, jsonify, make_response, request
-
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -26,7 +25,7 @@ def get_amenities():
         strict_slashes=False)
 def get_amenity(amenity_id):
     """get an amenity object by id"""
-    ame = storage.all(Amenity).get(f"Amenity.{amenity_id}")
+    ame = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
     if not ame:
         abort(404)
 
@@ -38,7 +37,7 @@ def get_amenity(amenity_id):
         strict_slashes=False)
 def delete_amenity(amenity_id):
     """delete an amenity object by id"""
-    ame = storage.all(Amenity).get(f"Amenity.{amenity_id}")
+    ame = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
     if not ame:
         abort(404)
 
@@ -70,7 +69,7 @@ def update_amenity(amenity_id):
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
-    ame = storage.all(Amenity).get(f"Amenity.{amenity_id}")
+    ame = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
     if not ame:
         abort(404)
 

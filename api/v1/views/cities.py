@@ -69,7 +69,7 @@ def create_city(state_id):
 
     new_city = City(state_id=state_id, name=json_data.get('name'))
     new_city.save()
-    return make_response(jsonify(new_city.to_dict()), 200)
+    return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route(
@@ -78,7 +78,7 @@ def create_city(state_id):
 def update_city(city_id):
     """ update City object"""
     city = storage.all(City).get(f"City.{city_id}")
-    if not city:
+    if city is None:
         abort(404)
 
     json_data = request.get_json()
@@ -91,4 +91,4 @@ def update_city(city_id):
             setattr(city, k, v)
 
     city.save()
-    return jsonify(city.to_dict()), 200
+    return jsonify(city.to_dict())

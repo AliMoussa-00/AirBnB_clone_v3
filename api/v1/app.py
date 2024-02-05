@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""defining the app module for the REST API"""
+"""
+defining the app module for the REST API
+"""
 
 from os import getenv
 from flask_cors import CORS
